@@ -3,13 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.13.0",
+    "@material-ui/core": "^4.12.1",
+    "@material-ui/icons": "4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "city-timezones": "^1.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "web-vitals": "^1.1.2"
+    "typescript": "^4.4.2",
+    "web-vitals": "^1.1.2",
+    "weather-js": "^2.0.0",
+    "openweather-apis": "^4.4.2",
+    "free-translate": "^0.4.0",
+    "js-itm": "^0.5.0"
   },
   "scripts": {
     "start": "react-scripts start",
