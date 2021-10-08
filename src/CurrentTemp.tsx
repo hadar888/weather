@@ -1,12 +1,12 @@
 import './App.css';
 import { useEffect } from 'react';
-import { Box, Card, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import { Location } from './Helper';
 const weather = require('openweather-apis');
 
 interface CurrentTempProps {
-    x: number;
-    y: number;
+    location: Location;
 }
 
 
@@ -25,15 +25,23 @@ const useStyles = makeStyles(() => ({
 
 function CurrentLocation(props: CurrentTempProps) {
     const classes = useStyles();
-    const { x, y } = props;
+    const { location } = props;
     const [weatherData, setWeatherData] = React.useState<any>();
+    const [shouldGetWeather, setShouldGetWeather] = React.useState<boolean>(false);
 
     useEffect(() => {
-        weather.getAllWeather(function (err: Error, JSONObj: any) {
-            setWeatherData(JSONObj);
-            console.log(JSONObj);
-        });
-    }, [x, y]);
+        weather.setCoordinate(location.x , location.y);
+        setShouldGetWeather(true);
+    }, [location]);
+
+    useEffect(() => {
+        if (shouldGetWeather) {
+            weather.getAllWeather(function (err: Error, JSONObj: any) {
+                setWeatherData(JSONObj);
+            });
+            setShouldGetWeather(false);
+        }
+    }, [shouldGetWeather])
 
     return (
         <>
@@ -43,16 +51,13 @@ function CurrentLocation(props: CurrentTempProps) {
                         <Grid item>
                             <Grid container direction="column" alignItems="flex-end">
                                 <Grid item>
-                                    <Typography className={classes.text} variant="h6"> שם המיקום: ארץ, מדינה, עיר</Typography>
+                                    <Typography className={classes.text} variant="h6">{weatherData.name}</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography color="textSecondary" variant="h6"> נכון לשעה: שעה</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography className={classes.text} variant="h1">{Math.round(weatherData.main.temp)}°</Typography>
-                                </Grid>
-                                <Grid item>
-                                    <Typography className={classes.text}>אחוז לגשם: אחוז</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography className={classes.text}> מהירות רוח: {weatherData.wind.speed}</Typography>
