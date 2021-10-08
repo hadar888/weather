@@ -1,7 +1,9 @@
 import { Box, Grid, makeStyles } from '@material-ui/core';
+import React from 'react';
+import { useEffect } from 'react';
 import './App.css';
-import CurrentLocation from './CurrentLocation';
 import CurrentTemp from './CurrentTemp';
+import { Location } from './Helper';
 import NavBar from './NavBar';
 const weather = require('openweather-apis');
 
@@ -9,6 +11,9 @@ const useStyles = makeStyles(() => ({
   app: {
     height: '100vh',
     backgroundImage: "linear-gradient(0, #5eabba, #177b9b)",
+    '& *': {
+      fontFamily: 'Open Sans',
+    },
   },
   mainContainer: {
     height: '100%',
@@ -17,27 +22,33 @@ const useStyles = makeStyles(() => ({
 
 function App() {
   const classes = useStyles();
+  const [userLocation, setUserLocation] = React.useState<Location>();
 
   weather.setAPPID("c5515db1b9a2ba19b421f73acb5c17e0");
 
-  const showPosition = (position: any) => {
+  const setUserPosition = (position: GeolocationPosition) => {
     if (position && position.coords) {
-      console.log(`${position.coords.latitude}, ${position.coords.longitude}`);
+      setUserLocation({ x: position.coords.latitude, y: position.coords.longitude });
     }
   }
 
-  navigator.geolocation.getCurrentPosition(showPosition);
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(setUserPosition);
+    }
+  }, []);
 
   return (
     <Box className={classes.app}>
       <NavBar />
-      <CurrentLocation />
       <Grid container direction="row-reverse" className={classes.mainContainer}>
         <Grid item xs={8}>
           <Grid container direction="column" className={classes.mainContainer}>
-            <Grid item>
-              <CurrentTemp x={20} y={20} />
-            </Grid>
+            {userLocation &&
+              <Grid item>
+                <CurrentTemp location={userLocation} />
+              </Grid>
+            }
             <Grid item>
               {/* <TodayTemp> */}
             </Grid>
@@ -48,7 +59,7 @@ function App() {
         </Grid>
       </Grid>
       <Grid item xs={4}>
-        {/* <AirQality> */}
+        {/* <AirQality / ads? > */}
       </Grid>
     </Box>
   );

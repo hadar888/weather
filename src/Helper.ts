@@ -39,3 +39,8 @@ export function dataGovCityToCityData(dataGovCity: any): CityData {
 
   return city;
 }
+
+export interface Location {
+  x: number;
+  y: number;
+}
