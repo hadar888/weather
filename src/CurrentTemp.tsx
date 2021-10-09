@@ -1,14 +1,9 @@
 import './App.css';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
-import { Location } from './Helper';
+import { currentLocationContext } from './currentLocationContext';
 const weather = require('openweather-apis');
-
-interface CurrentTempProps {
-    location: Location;
-}
-
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -23,16 +18,16 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-function CurrentLocation(props: CurrentTempProps) {
+function CurrentLocation() {
     const classes = useStyles();
-    const { location } = props;
     const [weatherData, setWeatherData] = React.useState<any>();
     const [shouldGetWeather, setShouldGetWeather] = React.useState<boolean>(false);
+    const currentLocation = useContext(currentLocationContext);
 
     useEffect(() => {
-        weather.setCoordinate(location.x , location.y);
+        weather.setCoordinate(currentLocation.currentLocation.x , currentLocation.currentLocation.y);
         setShouldGetWeather(true);
-    }, [location]);
+    }, [currentLocation]);
 
     useEffect(() => {
         if (shouldGetWeather) {

@@ -1,10 +1,10 @@
 import './App.css';
 import { Box, Button, Divider, Grid, makeStyles, Typography } from '@material-ui/core';
 import { CityData } from 'city-timezones';
-import { MouseEventHandler, useEffect } from 'react';
+import { MouseEventHandler, useContext, useEffect } from 'react';
 import React from 'react';
 import { isTexContainsHebrew } from './Helper';
-const weather = require('openweather-apis');
+import { currentLocationContext } from './currentLocationContext';
 
 const useStyles = makeStyles(() => ({
     searchResult: {
@@ -21,23 +21,11 @@ interface SearchResultItemProps {
     result: CityData | null;
 }
 
-
-const getWeather = (event: any) => { //React.MouseEvent<HTMLElement>
-    const location = event.target.id.split(',');
-    weather.setCoordinate(Number(location[0]), Number(location[1]));
-    weather.getTemperature((err: Error, temp: number) => {
-        console.log("cords:", temp);
-    });
-}
-
 function SearchResultItem(props: SearchResultItemProps) {
     const { result } = props;
     const [countryName, setCountryName] = React.useState<string>(result ? result.country : '');
     const classes = useStyles();
-
-    const locationText = result ? `${result.city} ,
-        ${result.province ? result.province + ',' : ''} 
-        ${countryName}` : 'אין תוצאות חיפוש';
+    const currentLocation = useContext(currentLocationContext);
 
     useEffect(() => {
         async function setHebrewCountryName(countryName: string) {
@@ -63,6 +51,15 @@ function SearchResultItem(props: SearchResultItemProps) {
             setHebrewCountryName(countryName);
         }
     }, [])
+
+    const getWeather = (event: any) => { //React.MouseEvent<HTMLElement>
+        const location = event.target.id.split(',');
+        currentLocation.setCurrentLocation({x:Number(location[0]), y:Number(location[1])});
+    }
+
+    const locationText = result ? `${result.city} ,
+        ${result.province ? result.province + ',' : ''} 
+        ${countryName}` : 'אין תוצאות חיפוש';
 
     return (
         <>
