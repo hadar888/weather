@@ -18,10 +18,11 @@ const useStyles = makeStyles(() => ({
 
 interface SearchResultProps {
     locationText: string;
+    onClickAway: () => void;
 }
 
 function SearchResult(props: SearchResultProps) {
-    const { locationText } = props;
+    const { locationText, onClickAway } = props;
     const [relevantCities, setRelevantCities] = React.useState<CityData[]>([]);
 
     const classes = useStyles();
@@ -65,10 +66,10 @@ function SearchResult(props: SearchResultProps) {
                     relevantCities.length ?
                         relevantCities.map((city: CityData) => {
                             return <Grid item key={`${city.city}${city.lat}, ${city.lng}`}>
-                                <SearchResultItem result={city} />
+                                <SearchResultItem result={city} onClickAway={onClickAway}/>
                             </Grid>
                         }) :
-                        <SearchResultItem result={null} />
+                        <SearchResultItem result={null} onClickAway={onClickAway}/>
                 }
             </Grid>
         </>
