@@ -6,6 +6,7 @@ import CurrentTemp from './CurrentTemp';
 import { Location } from './Helper';
 import { currentLocationContext } from './currentLocationContext';
 import NavBar from './NavBar';
+import TodayForecast from './TodayForecast';
 const weather = require('openweather-apis');
 
 const useStyles = makeStyles(() => ({
@@ -16,14 +17,11 @@ const useStyles = makeStyles(() => ({
       fontFamily: 'Open Sans',
     },
   },
-  mainContainer: {
-    height: '100%',
-  }
 }));
 
 function App() {
   const classes = useStyles();
-  const [location, setLocation] = React.useState<Location>({x: 0, y:0});
+  const [location, setLocation] = React.useState<Location>({ x: 0, y: 0 });
 
   weather.setAPPID("c5515db1b9a2ba19b421f73acb5c17e0");
 
@@ -41,18 +39,18 @@ function App() {
 
   return (
     <Box className={classes.app}>
-      <currentLocationContext.Provider value={{currentLocation: location, setCurrentLocation: setLocation}}>
+      <currentLocationContext.Provider value={{ currentLocation: location, setCurrentLocation: setLocation }}>
         <NavBar />
-        <Grid container direction="row-reverse" className={classes.mainContainer}>
+        <Grid container direction="row-reverse">
           <Grid item xs={8}>
-            <Grid container direction="column" className={classes.mainContainer}>
+            <Grid container direction="column">
               {location &&
                 <Grid item>
                   <CurrentTemp />
                 </Grid>
               }
               <Grid item>
-                {/* <TodayTemp> */}
+                <TodayForecast forecastTemps={[1, 0.5, 3, 4, 5, 20, 7, 8]} />
               </Grid>
               <Grid item>
                 {/* <WeekTemp> */}
