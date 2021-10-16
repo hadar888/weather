@@ -19,7 +19,11 @@
     "weather-js": "^2.0.0",
     "openweather-apis": "^4.4.2",
     "free-translate": "^0.4.0",
-    "js-itm": "^0.5.0"
+    "js-itm": "^0.5.0",
+    "@devexpress/dx-react-core": "^2.7.6",
+    "@devexpress/dx-react-chart": "^2.7.6",
+    "@devexpress/dx-react-chart-material-ui": "^2.7.6",
+    "dayjs": "^1.10.7"
   },
   "scripts": {
     "start": "react-scripts start",

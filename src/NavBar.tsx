@@ -60,7 +60,9 @@ function NavBar() {
                     <Grid item >
                         <ClickAwayListener onClickAway={handleSearchResultsClickAway} >
                             <div >
-                                <SearchResult locationText={locationText} />
+                                <SearchResult
+                                    locationText={locationText}
+                                    onClickAway={handleSearchResultsClickAway} />
                             </div>
                         </ClickAwayListener>
                     </Grid>

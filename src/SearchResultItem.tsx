@@ -19,10 +19,11 @@ const useStyles = makeStyles(() => ({
 
 interface SearchResultItemProps {
     result: CityData | null;
+    onClickAway: () => void;
 }
 
 function SearchResultItem(props: SearchResultItemProps) {
-    const { result } = props;
+    const { result, onClickAway} = props;
     const [countryName, setCountryName] = React.useState<string>(result ? result.country : '');
     const classes = useStyles();
     const currentLocation = useContext(currentLocationContext);
@@ -63,7 +64,7 @@ function SearchResultItem(props: SearchResultItemProps) {
 
     return (
         <>
-            <Box className={classes.searchResult} dir="rtl">
+            <Box className={classes.searchResult} dir="rtl" onClick={onClickAway}>
                 {
                     result ?
                         <Button onClick={getWeather} fullWidth>
