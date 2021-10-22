@@ -1,10 +1,11 @@
 import './App.css';
-import React from 'react';
+import React, { useContext } from 'react';
 import { AppBar, ClickAwayListener, Grid, makeStyles, Toolbar } from '@material-ui/core';
 import SearchResult from './SearchResult';
 import DegreesSelect from './DegreesSelect';
 import LocationSearch from './LocationSearch';
 import { DegreesType } from './Helper';
+import { preferenceTemperatureUnitContext } from './preferenceTemperatureUnitContext';
 const weather = require('openweather-apis');
 
 const useStyles = makeStyles(() => ({
@@ -19,8 +20,8 @@ const useStyles = makeStyles(() => ({
 
 function NavBar() {
     const [locationText, setLocationText] = React.useState("");
-    const [degreesType, setDegreesType] = React.useState<DegreesType>(DegreesType.Celsius);
     const [showResults, setShowResults] = React.useState(false);
+    const preferenceTemperatureUnit = useContext(preferenceTemperatureUnitContext);
 
     const classes = useStyles();
 
@@ -34,8 +35,7 @@ function NavBar() {
     }
 
     const onDegreeTypeChange = (newDegreeType: DegreesType) => {
-        weather.setUnits(newDegreeType);
-        setDegreesType(newDegreeType);
+        preferenceTemperatureUnit.setPreferenceTemperatureUnit(newDegreeType);
     }
 
     const handleSearchResultsClickAway = () => {
@@ -46,7 +46,9 @@ function NavBar() {
         <>
             <AppBar position="static">
                 <Toolbar className={classes.degreesTypeSelectContainer}>
-                    <DegreesSelect degreesType={degreesType} onDegreeTypeChange={onDegreeTypeChange} />
+                    <DegreesSelect
+                        degreesType={preferenceTemperatureUnit.preferenceTemperatureUnit}
+                        onDegreeTypeChange={onDegreeTypeChange} />
                     <Grid container direction="row" alignItems="center" justifyContent="center">
                         <Grid item>
                             <LocationSearch onTextChange={onSearchBarTextChange} onClick={searchBarOnClick} />
