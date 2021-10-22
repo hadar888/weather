@@ -3,6 +3,7 @@ import { useContext, useEffect } from 'react';
 import { Card, Grid, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { currentLocationContext } from './currentLocationContext';
+import { preferenceTemperatureUnitContext } from './preferenceTemperatureUnitContext';
 const weather = require('openweather-apis');
 
 const useStyles = makeStyles(() => ({
@@ -23,11 +24,13 @@ function CurrentLocation() {
     const [weatherData, setWeatherData] = React.useState<any>();
     const [shouldGetWeather, setShouldGetWeather] = React.useState<boolean>(false);
     const currentLocation = useContext(currentLocationContext);
+    const preferenceTemperatureUnit = useContext(preferenceTemperatureUnitContext);
 
     useEffect(() => {
+        weather.setUnits(preferenceTemperatureUnit.preferenceTemperatureUnit);
         weather.setCoordinate(currentLocation.currentLocation.x , currentLocation.currentLocation.y);
         setShouldGetWeather(true);
-    }, [currentLocation]);
+    }, [currentLocation, preferenceTemperatureUnit]);
 
     useEffect(() => {
         if (shouldGetWeather) {
