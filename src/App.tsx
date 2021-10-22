@@ -6,12 +6,13 @@ import CurrentTemp from './CurrentTemp';
 import { Location } from './Helper';
 import { currentLocationContext } from './currentLocationContext';
 import NavBar from './NavBar';
-import TodayForecast from './TodayForecast';
+import ForecastChart from './ForecastChart';
+import TodayForecast from './TodayForewcast';
+import WeekForecast from './WeekForecast';
 const weather = require('openweather-apis');
 
 const useStyles = makeStyles(() => ({
   app: {
-    height: '100vh',
     backgroundImage: "linear-gradient(0, #5eabba, #177b9b)",
     '& *': {
       fontFamily: 'Open Sans',
@@ -53,7 +54,7 @@ function App() {
                 <TodayForecast forecastTemps={[1, 0.5, 3, 4, 5, 20, 7, 8]} />
               </Grid>
               <Grid item>
-                {/* <WeekTemp> */}
+                <WeekForecast forecastTemps={[1, 2, 20, 4, 5, 6, -7]} />
               </Grid>
             </Grid>
           </Grid>

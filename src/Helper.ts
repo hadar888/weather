@@ -44,3 +44,6 @@ export interface Location {
   x: number;
   y: number;
 }
+
+export const daysNames = 
+  ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"]
